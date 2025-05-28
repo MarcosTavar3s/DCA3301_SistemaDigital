@@ -32,15 +32,15 @@ ARCHITECTURE BEHAV OF circuito01 IS
 BEGIN
 -- negacoes das portas
  u1: aux2 <= not A;
- u2: aux3 <= not A;
+ u2: aux3 <= not B;
 -- saida S1
  u3: PortaXor2Entradas PORT MAP(i1=>A, i2 =>B, saida_xor=>aux1); -- A xor B
- u4: PortaXor2Entradas PORT MAP(i1=>aux1, i2 =>C, saida_xor=>S1); -- (A xor B) xor C
+ u4: PortaXor2Entradas PORT MAP(i1=>aux1, i2 =>C, saida_xor=>S2); -- (A xor B) xor C
  -- saida S2
- u5: PortaAnd3Entradas PORT MAP(in1=>aux2, in2=>B, in3=>C, saida_and=>aux4); -- A'BC
- u6: PortaAnd3Entradas PORT MAP(in1=>A, in2=>B, in3=>B, saida_and=>aux5); -- AB
- u7: PortaAnd3Entradas PORT MAP(in1=>A, in2=>aux3, in3=>B, saida_and=>aux6); -- AB'C
- u8: PortaOr3Entradas PORT MAP(e1=>aux4, e2=>aux5, e3=>aux6, saida_or=>S2); -- A'BC + AB +AB'C
+ u5: PortaAnd3Entradas PORT MAP(in1=>A, in2=>B, in3=>'1', saida_and=>aux4); -- A'BC
+ u6: PortaAnd3Entradas PORT MAP(in1=>A, in2=>C, in3=>'1', saida_and=>aux5); -- AB
+ u7: PortaAnd3Entradas PORT MAP(in1=>B, in2=>C, in3=>'1', saida_and=>aux6); -- AB'C
+ u8: PortaOr3Entradas PORT MAP(e1=>aux4, e2=>aux5, e3=>aux6, saida_or=>S1); -- A'BC + AB +AB'C
  END ARCHITECTURE BEHAV;
 
 	 
