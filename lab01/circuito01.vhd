@@ -42,6 +42,3 @@ BEGIN
  u7: PortaAnd3Entradas PORT MAP(in1=>B, in2=>C, in3=>'1', saida_and=>aux6); -- AB'C
  u8: PortaOr3Entradas PORT MAP(e1=>aux4, e2=>aux5, e3=>aux6, saida_or=>S1); -- A'BC + AB +AB'C
  END ARCHITECTURE BEHAV;
-
-	 
-	 
