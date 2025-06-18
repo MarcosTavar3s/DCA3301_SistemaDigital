@@ -28,5 +28,4 @@ BEGIN
 	S5 <= (a4n and a3n and a2n and a1) or (a4n and a3n and a2) or (a4n and a3 and a2 and a1);
 	S6 <= (a4n and a3n and a2n and a1n) or (a4n and a3n and a2n and a1) or (a4n and a3 and a2 and a1) or (a4 and a2) or (a4 and a3);						
 	
---desenvolver codigo aqui	
  END ARCHITECTURE BEHAV;
