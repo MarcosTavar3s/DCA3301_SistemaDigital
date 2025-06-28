@@ -24,6 +24,12 @@ ARCHITECTURE behav OF projeto_final IS
 		q: OUT std_logic_vector(11 DOWNTO 0));
 	END COMPONENT;
 	
+	COMPONENT registrador4bits IS
+	 PORT(c4bits, clr_registrador4bits, ld_registrador4bits:IN BIT;
+	 i4bits : IN std_logic_vector(3 DOWNTO 0);
+	 q4bits : OUT std_logic_vector(3 DOWNTO 0));
+	END COMPONENT;
+	
 	COMPONENT contador IS
 	PORT(clk_cnt, cnt, clr_cnt: IN BIT;
 	num: OUT INTEGER);
@@ -54,15 +60,16 @@ BEGIN
 	-- registrador do segundos
 	u4: registrador PORT MAP(c=>clock_reg, ld_registrador=>menor_3600, clr_registrador=>clear_reg, i=>bits_segundos, q=>bits_segundos_reg);
 	saida_cnt <= bits_segundos_reg;
+	
 	-- separacao em unidade, dezena, centena e milhar
 	u5: conversor PORT MAP(segundos=>bits_segundos_reg, s_m=>bits_segundos_m, s_c=>bits_segundos_c, s_d=>bits_segundos_d, s_u=>bits_segundos_u);
 	
-	-- debug
-	saida_cnt_m <= bits_segundos_m;
-	saida_cnt_c <= bits_segundos_c;
-	saida_cnt_d <= bits_segundos_d;
-	saida_cnt_u <= bits_segundos_u;
-	
+	-- registrador de unidade, dezena, centena e milhar
+	u6: registrador4bits PORT MAP(c4bits=>clock_reg, ld_registrador4bits=>menor_3600, clr_registrador4bits=>clear_reg, i4bits=>bits_segundos_m, q4bits=>saida_cnt_m);
+	u7: registrador4bits PORT MAP(c4bits=>clock_reg, ld_registrador4bits=>menor_3600, clr_registrador4bits=>clear_reg, i4bits=>bits_segundos_c, q4bits=>saida_cnt_c);
+	u8: registrador4bits PORT MAP(c4bits=>clock_reg, ld_registrador4bits=>menor_3600, clr_registrador4bits=>clear_reg, i4bits=>bits_segundos_d, q4bits=>saida_cnt_d);
+	u9: registrador4bits PORT MAP(c4bits=>clock_reg, ld_registrador4bits=>menor_3600, clr_registrador4bits=>clear_reg, i4bits=>bits_segundos_u, q4bits=>saida_cnt_u);
+
 	-- decoder
 	
 	
