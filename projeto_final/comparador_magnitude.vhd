@@ -4,10 +4,11 @@ use ieee.numeric_std.all;
 
 ENTITY comparador_magnitude IS
 	PORT(A,B: IN INTEGER;
-	A_et_B, A_lt_B, A_gt_B:OUT BIT);
+  	A_lt_B:OUT BIT);
 END;
 
 ARCHITECTURE behav OF comparador_magnitude IS
+	-- auxiliares para ajudar na conversao do tipo inteiro para vetor de bits
 	signal bits_A: std_logic_vector(11 downto 0);
 	signal bits_B: std_logic_vector(11 downto 0);
 	signal eq, gt, lt : std_logic_vector(11 downto 0);
@@ -26,7 +27,6 @@ BEGIN
 	
 	-- A==B
 	eq_bit <= to_bit(eq(0) and eq(1) and eq(2) and eq(3) and eq(4) and eq(5) and eq(6) and eq(7) and eq(8) and eq(9) and eq(10) and eq(11));
-	A_et_B <= eq_bit;
 	
    -- A > B
    gt_bit <= to_bit((gt(11)) or
@@ -41,7 +41,6 @@ BEGIN
     (gt(2)  and eq(3)  and eq(4)  and eq(5)  and eq(6)  and eq(7)  and eq(8)  and eq(9)  and eq(10) and eq(11)) or
     (gt(1)  and eq(2)  and eq(3)  and eq(4)  and eq(5)  and eq(6)  and eq(7)  and eq(8)  and eq(9)  and eq(10) and eq(11)) or
     (gt(0)  and eq(1)  and eq(2)  and eq(3)  and eq(4)  and eq(5)  and eq(6)  and eq(7)  and eq(8)  and eq(9)  and eq(10) and eq(11)));
-	A_gt_B <= gt_bit;
 	
    -- A < B
    A_lt_B <= gt_bit nor eq_bit;
