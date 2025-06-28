@@ -1,8 +1,9 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all ;
- 
+USE ieee.numeric_std.all;
+
 ENTITY projeto_final IS
-	PORT(C,i: IN BIT;
+	PORT(clock_cnt, clear_cnt, en_cnt, clock_reg: IN BIT;
 	e, g, l:OUT BIT;
 	cont: OUT INTEGER
 	);
@@ -12,7 +13,7 @@ ARCHITECTURE behav OF projeto_final IS
 
 	COMPONENT comparador_magnitude IS
 		PORT(A,B: IN INTEGER;
-		A_et_B, A_lt_B, A_gt_B:OUT BIT);
+		A_lt_B:OUT BIT);
 	END COMPONENT;
 	
 	COMPONENT registrador IS
@@ -30,12 +31,31 @@ ARCHITECTURE behav OF projeto_final IS
 	s_m, s_c, s_d, s_u:OUT INTEGER);
 	END COMPONENT;
 	
-	signal auxa, auxb: INTEGER;
+	-- sinais auxiliares para processamento do tempo
+	SIGNAL tempo: INTEGER;
+	SIGNAL segundos_m, segundos_c, segundos_d, segundos_u: INTEGER;
+	SIGNAL bits_segundos_m, bits_segundos_c, bits_segundos_d, bits_segundos_u: std_logic_vector(3 downto 0);
+	-- auxiliar para comparacao (<3600)
+	SIGNAL menor_3600: BIT;
 	
 BEGIN
-	auxa<=6;
-	auxb<=9;
+
+	-- contador
+	u1: contador PORT MAP(clk_cnt=>clock_cnt, cnt=>en_cnt, clr=>clear_cnt, num=>tempo);
+	u2: comparador_magnitude PORT MAP(A=>tempo, B=>3600, A_lt_B=>menor_3600);
 	
-	u1: contador PORT MAP(clk_cnt=>c, cnt=>'1', clr_cnt=>'0', num=>cont);
+	-- converte para a saida em cada display
+	u3: conversor PORT MAP(segundos=>tempo, s_m=>segundos_m, s_c=>segundos_c, s_d=>segundos_d, s_u=>segundos_u);
+	
+	bits_segundos_m <= std_logic_vector(to_unsigned(segundos_m, 4));
+	bits_segundos_c <= std_logic_vector(to_unsigned(segundos_c, 4));
+	bits_segundos_d <= std_logic_vector(to_unsigned(segundos_d, 4));
+	bits_segundos_u <= std_logic_vector(to_unsigned(segundos_u, 4));
+	
+	-- armazena no registrador
+	u4: registrador PORT MAP(c=>clock_reg, q11=>'0', q10=>'0')
+	
+	--
+	
 	
 END; 
