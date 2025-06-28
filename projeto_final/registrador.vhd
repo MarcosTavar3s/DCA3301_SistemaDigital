@@ -22,5 +22,5 @@ BEGIN
 				END IF;
 			END IF;
 	END PROCESS;
-	
+	q <= reg;
 END ARCHITECTURE behav;
