@@ -3,14 +3,17 @@ USE ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 ENTITY conversor IS
-	PORT(segundos: IN INTEGER;
-	s_m, s_c, s_d, s_u:OUT INTEGER);
+	PORT(segundos: IN std_logic_vector(11 downto 0);
+	s_m, s_c, s_d, s_u:OUT std_logic_vector(3 downto 0));
 END;
 
 ARCHITECTURE behav OF conversor IS
+	SIGNAL aux_segundos: INTEGER;
+	
 BEGIN
-	s_m <= segundos mod 1000;
-	s_c <= (segundos mod 1000)/100;
-	s_d <= ((segundos mod 1000) mod 100)/10;
-	s_u <= ((segundos mod 1000) mod 100) mod 10;
+	aux_segundos <= to_integer(unsigned(segundos));
+	s_m <= std_logic_vector(to_unsigned(aux_segundos / 1000, 4));
+	s_c <= std_logic_vector(to_unsigned((aux_segundos mod 1000) / 100, 4));
+	s_d <= std_logic_vector(to_unsigned(((aux_segundos mod 100) / 10), 4));
+	s_u <= std_logic_vector(to_unsigned(aux_segundos mod 10, 4));
 END ARCHITECTURE behav;
