@@ -86,6 +86,8 @@ BEGIN
             WHEN Espera =>
                 IF start = '1' AND menor_3600 = '1' THEN
                     next_state <= Conta;
+					 ELSIF reset='1' THEN
+						  next_state <= Inicio;
                 ELSE
                     next_state <= Espera;
                 END IF;
