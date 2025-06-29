@@ -3,12 +3,12 @@ use ieee.std_logic_1164.all;
 
 ENTITY decoder IS
 PORT(a:IN std_logic_vector(3 DOWNTO 0);
-S0, S1, S2, S3, S4, S5, S6 :OUT std_logic_vector(6 DOWNTO 0));
+S0, S1, S2, S3, S4, S5, S6 :OUT std_logic);
 END decoder;
 
 ARCHITECTURE BEHAV OF decoder IS
-	SIGNAL a4, a3, a2, a1: BIT;
-	SIGNAL a4n, a3n, a2n, a1n: BIT;
+	SIGNAL a4, a3, a2, a1: std_logic;
+	SIGNAL a4n, a3n, a2n, a1n: std_logic;
 	
 BEGIN
 	-- sinais auxiliares
