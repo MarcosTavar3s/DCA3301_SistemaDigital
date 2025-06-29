@@ -8,6 +8,7 @@ ENTITY projeto_final IS
         start, pause, reset: IN BIT;
         saida_cnt: OUT std_logic_vector(11 downto 0);
         saida_cnt_m, saida_cnt_c, saida_cnt_d, saida_cnt_u: OUT std_logic_vector(3 downto 0);
+		  display_m, display_c, display_d, display_u: OUT std_logic_vector(6 downto 0);
         l: OUT BIT;
         cont: OUT INTEGER
     );
@@ -42,6 +43,11 @@ ARCHITECTURE behav OF projeto_final IS
         PORT(segundos: IN std_logic_vector(11 DOWNTO 0);
         s_m, s_c, s_d, s_u:OUT std_logic_vector(3 DOWNTO 0));
     END COMPONENT;
+	 
+	 COMPONENT decoder IS 
+		PORT(a:IN std_logic_vector(3 DOWNTO 0);
+		S0, S1, S2, S3, S4, S5, S6 :OUT std_logic);
+	 END COMPONENT;
 
     -- FSM
     TYPE state_type IS (Inicio, Espera, Conta, Pausa);
@@ -167,4 +173,9 @@ BEGIN
     u8: registrador4bits PORT MAP(c4bits => clock_reg, ld_registrador4bits => ld_reg, clr_registrador4bits => clear_reg, i4bits => bits_segundos_d, q4bits => saida_cnt_d);
     u9: registrador4bits PORT MAP(c4bits => clock_reg, ld_registrador4bits => ld_reg, clr_registrador4bits => clear_reg, i4bits => bits_segundos_u, q4bits => saida_cnt_u);
 
+	-- decoders
+	u10: decoder PORT MAP(a=>bits_segundos_m, S0=>display_m(0), S1=>display_m(1), S2=>display_m(2), S3=>display_m(3), S4=>display_m(4), S5=>display_m(5), S6=>display_m(6));
+	u11: decoder PORT MAP(a=>bits_segundos_c, S0=>display_c(0), S1=>display_c(1), S2=>display_c(2), S3=>display_c(3), S4=>display_c(4), S5=>display_c(5), S6=>display_c(6));
+	u12: decoder PORT MAP(a=>bits_segundos_d, S0=>display_d(0), S1=>display_d(1), S2=>display_d(2), S3=>display_d(3), S4=>display_d(4), S5=>display_d(5), S6=>display_d(6));
+	u13: decoder PORT MAP(a=>bits_segundos_u, S0=>display_u(0), S1=>display_u(1), S2=>display_u(2), S3=>display_u(3), S4=>display_u(4), S5=>display_u(5), S6=>display_u(6));
 END behav;
